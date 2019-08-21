@@ -1,0 +1,21 @@
+apiVersion: v1
+kind: Service
+metadata:
+  name: frps
+  labels:
+    app: frps
+spec:
+  ports:
+    - name: remote
+      port: 6000
+      targetPort: 6000
+    - name: bind
+      port: 7000
+      targetPort: 7000
+    - name: web
+      port: 8080
+      targetPort: 8080
+  selector:
+    app: frps
+  type: LoadBalancer
+

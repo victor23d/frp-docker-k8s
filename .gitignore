@@ -1,6 +1,7 @@
 frpc
 frps
-./frpc.ini
-./frps.ini
-./frpc_full.ini
-./frps_full.ini
+frpc.ini
+frps.ini
+frpc_full.ini
+frps_full.ini
+frp*
