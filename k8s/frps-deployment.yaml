@@ -1,0 +1,41 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: frps
+  labels:
+    app: frps
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: frps
+  template:
+    metadata:
+      labels:
+        app: frps
+    spec:
+      imagePullSecrets:
+        - name: regcred
+      containers:
+        - name: frps
+          image: victor23d/frp:latest
+          ports:
+            - containerPort: 7000
+              protocol: TCP
+            - containerPort: 6000
+              protocol: TCP
+            - containerPort: 8080
+              protocol: TCP
+          volumeMounts:
+            - name: frps-config-volume
+              mountPath: /app/config
+          command:
+            ["/app/frps", "-c", "/app/config/frps.ini"]
+      volumes:
+        - name: frps-config-volume
+          configMap:
+            name: frps-config
+      # volumes:
+      #   - name: frps-secret-volume
+      #     secret:
+      #       secretName: frps-secret

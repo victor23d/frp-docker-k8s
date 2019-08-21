@@ -1,0 +1,34 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: frpc
+  labels:
+    app: frpc
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: frpc
+  template:
+    metadata:
+      labels:
+        app: frpc
+    spec:
+      imagePullSecrets:
+        - name: regcred
+      containers:
+        - name: frpc
+          image: victor23d/frp:latest
+          volumeMounts:
+            - name: frpc-config-volume
+              mountPath: /app/config
+          command:
+            ["/app/frpc", "-c", "/app/config/frpc.ini"]
+      volumes:
+        - name: frpc-config-volume
+          configMap:
+            name: frpc-config
+      # volumes:
+      #   - name: frpc-secret-volume
+      #     secret:
+      #       secretName: frpc-secret
